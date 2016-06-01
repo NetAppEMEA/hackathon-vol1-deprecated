@@ -1,4 +1,4 @@
-# hackathon-muc -- Munich Hackers Night!
+# hackathon-vol1 -- NetApp's first Hackers Night!
 
 ![alt text](https://cloud.githubusercontent.com/assets/917241/15464979/702523d0-20d2-11e6-8d88-2b71e30863d5.png "Your Challenge")
 
