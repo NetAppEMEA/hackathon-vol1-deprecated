@@ -1,0 +1,8 @@
+{
+  "endpoint": "https://<Your S3 Endpoint>:<Port>",
+  "bucket": "<Your S3 Bucket>",
+  "access_key": "<Your Access Key for S3>",
+  "secret_access_key": "<Your Secret Access Key for S3>",
+  "elasticsearch_host": "<ElasticSearch Host IP>:<Port>",
+  "camera_command": "<Command to take a photo.  Filename is generated and will be appended to the end>"
+}
