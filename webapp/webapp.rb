@@ -10,7 +10,7 @@ Unirest.timeout(20)
 
 get "/" do
 
-  response = es.search index: 'raspberries_muc', q: '*'
+  response = es.search index: 'raspberries', q: '*'
   @ips = []
   response['hits']['hits'].each do |r|
     @ips << r['_id']
