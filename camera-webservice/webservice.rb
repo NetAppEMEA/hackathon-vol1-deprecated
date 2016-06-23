@@ -21,21 +21,26 @@ $es = Elasticsearch::Client.new(es_config)
 cred = Aws::Credentials.new(access_key, secret_access_key)
 $client = Aws::S3::Client.new(region: 'us-east-1', endpoint: $endpoint, credentials: cred, force_path_style: true, ssl_verify_peer: false)
 
+# Return a test message for testing
 get "/" do
   content_type :json
   {:message => "Webservice is running"}.to_json
 end
 
+# URL to take a photo
 get "/take_photo" do
   content_type :json
+
+  # Take photo and upload to StorageGRID  
   bucket = $bucket_name
   image_url = write_webcam_image_to_s3(bucket)
 
-  #log information into elasticsearch
+  # Log IP address of curent host into elasticsearch
   ip_address = Socket.ip_address_list[1].ip_address
   ts = DateTime.now.strftime('%Q').to_i
   $es.index index: 'raspberries', type: 'ip_info', id: ip_address, body: { timestamp: ts }
 
+  # Return success message and URL to photo
   {:message => "Took photo with camera", :image_url => image_url}.to_json
 end
 
