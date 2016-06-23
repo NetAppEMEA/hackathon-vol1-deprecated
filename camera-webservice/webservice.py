@@ -56,7 +56,7 @@ class TakePhotoAPI(Resource):
 		# Post to ES
 		es = Elasticsearch([conf['elasticsearch_host']])
 		ts = int(round(time.time() * 1000))
-		res = es.index(index='raspberries_muc', doc_type='ip_info', id=ip_address, body={ 'timestamp': ts })
+		res = es.index(index='raspberries', doc_type='ip_info', id=ip_address, body={ 'timestamp': ts })
 		print(res['created'])
 
 		
