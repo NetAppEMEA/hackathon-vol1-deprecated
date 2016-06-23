@@ -1,13 +1,13 @@
 #camera-webservice
 
-Two services are available written Ruby and Python; pick your poison!
+Two version are available, one in Ruby and one in Python; pick your poison!
 
-### Ruby with Sinatra - `webservice.rb` ###
-* OS Package dependencies: `ruby ruby-dev`
+### Ruby version - based on Sinatra - `webservice.rb` ###
+* Install Ruby - OS Package dependencies: `ruby ruby-dev`
 * Ruby gem dependencies: `sinatra shotgun aws-sdk json elasticsearch` *Tip:  use the* `--no-document` *option to decrease time to install!!*
 * Run using: `shotgun --host 0.0.0.0 --port 8080 webservice.rb`
 
-### Python with Flask - `webservice.py` ###
+### Python version - based on Flask - `webservice.py` ###
 * OS Package dependencies: `python-pip`
 * Python module dependencies: `flask flask-restful boto3 elasticsearch`
 * On Windows: the above plus python module `pillow` and [CommandCam](https://batchloaf.wordpress.com/commandcam/ "CommandCam") photo software placed in same directory as `webservice.py`

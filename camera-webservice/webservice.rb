@@ -12,6 +12,7 @@ $endpoint = config['endpoint']
 $bucket_name = config['bucket']
 access_key = config['access_key']
 secret_access_key = config['secret_access_key']
+$camera_command = config['secret_access_key']
 
 es_config = {host: config['elasticsearch_host']}
 
@@ -43,7 +44,7 @@ def write_webcam_image_to_s3(bucket)
   image_name = SecureRandom.hex(32) + ".jpg";
   
   # Take picture and store it as image_name
-  cli_cmd = "fswebcam -r 640x480 --jpeg 85 --delay 1 " + image_name
+  cli_cmd = $camera_command + " " + image_name
   `#{cli_cmd}`
 
   # Open Image file & upload it to StorageGRID
