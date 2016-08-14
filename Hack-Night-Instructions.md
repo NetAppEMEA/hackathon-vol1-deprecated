@@ -56,14 +56,14 @@ Note: You may need to run the following command to load the camera driver.
 3. Install an ElasticSearch Toolbox and connect to the ElasticSearch server.
 
 ### Module 3: Setup RaspberryPI Camera Webservice
-* The files and instructions you need are in the camera-webservice directory.
+* The files and instructions you need are in the *camera-webservice* directory.
 * You will have the opportunity to use either the Python or the Ruby based webservice code.  
 
 ### Module 4: Get Webservice to upload S3 images
-Instructions are in the camera-webservice/README.md file
+Instructions are in the *camera-webservice/README.md* file
 
 ### Module 5: Get Webservice to upload ElasticSearch data
-Instructions are in the camera-webservice/README.md file
+Instructions are in the *camera-webservice/README.md* file
 
 ### Module 6: Explore and search with ElasticSearch
 Using the ElasticSearch Toolbox tools explore the data updated by all the hackers.  Come up with an idea of what to search.  Update the your webservice to add additional meta data to upload.
@@ -71,4 +71,4 @@ Using the ElasticSearch Toolbox tools explore the data updated by all the hacker
 ### Module 7: Setup Docker and web app (webapp)
 This module will be performed on your laptop and will not require the RaspberryPI.
 
-* The files and instructions can be found in the webapp directory.  
+* The files and instructions can be found in the *webapp* directory.  

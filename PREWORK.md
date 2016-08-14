@@ -1,4 +1,4 @@
-# Hack-night - Suggested Pre-work
+# Hack-night: Suggested Pre-work
 
 If you are a beginner or some of these topics are new to you, then you should take some time prior to the Hack-night event to prepare yourself.
 
