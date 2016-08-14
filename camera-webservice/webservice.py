@@ -80,8 +80,7 @@ class RootAPI(Resource):
 
         # return a HTML message in the browser indicating the Webservice is running
 	def get(self):
-		return make_response(jsonify({'message' : "Webservice is running"}), 200)
-
+		return make_response(jsonify({'message' : "Webservice is running.<br>To take picture http://<ip>:8080/take_photo"}), 200)
 	
 #--------------------------------------- 
 # TakePhotoAPI - collection of sub-routines
