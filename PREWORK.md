@@ -15,6 +15,9 @@ You will be expected to have basic UNIX command line knowledge.  If this is goin
 ### UNIX Editor
 The activity requires basic text file editing.  The RaspberryPI has the 'nano' and 'vim' editors pre-installed.  If you are not familiar with one of these editors, you might want to either install your own favorite UNIX editor or learn one of the provided editors.
 
+### SSH and SCP Commands
+In module 1, you will be asked to SSH into the RaspberryPI, take a picture, then copy the picture back to your laptop using SCP.  Make sure you know how to use the ssh and scp commands.  
+
 ## Basic Git/GitHub Tutorial
 If this is your first time using Git or GitHub (or any source control tool for that matter), I recommend watching a Git/GitHub tutorial.  There are many good videos on Youtube.com, here is one example; https://www.youtube.com/watch?v=0fKg7e37bQE
 
@@ -42,7 +45,7 @@ The labs will use the following RaspberryPI hardware. If you already have a Rasp
 2. Arducam 5 Megapixels 1080p Sensor OV5647 Mini Camera Video Module for Raspberry Pi Model A/B/B+, Pi 2 and Raspberry Pi 3
 3. SanDisk Ultra 16GB Ultra Micro SDHC UHS-I/Class 10 Card with Adapter 
 
-## Install UNIX packages
+## Installing UNIX packages and tools
 You will be asked to install various development tools, libraries and applications on the RaspberryPI.  If you are not familiar with tools like 'apt-get', 'yum', and 'pip' do a little Google searching to learn how these are used.  Hint: Google "what is apt-get" or "what is python pip".
 
 The hack-night activity will specifically ask you to install Python and Ruby packages using apt-get and pip.  If you don't know how to install 'fswebcam', 'ruby', and 'gems', then you might want to do a little pre-work.  
@@ -61,7 +64,7 @@ You will be asked to configure the RaspberryPI web service to upload images to S
 
 
 ### SGWS S3
-We will provide a StorageGrid Webscale (SGWS) service for you to load images to.  This is a good time to re-familiarize your with using SGWS if it has been a while.  You can if you like, setup your own SGWS service and use it during the event, or you can use the one provided by the facilitators.
+We will provide a StorageGRID Webscale (SGWS) service for you to load images to.  This is a good time to re-familiarize your with using SGWS if it has been a while.  You can if you like, setup your own SGWS service and use it during the event, or you can use the one provided by the facilitators.
 
 ### AWS S3
 You may optionally choose to create your own personal AWS S3 storage buckets for use on Hack-night.  It is recommended you setup this up BEFORE the hack-night since it might ta a while.  
@@ -85,7 +88,7 @@ To visualize the data uploaded to the ElasticSearch server you can install one o
 ### Searching Hack-night data
 Consider how you might use the hack-night data, what searches you might apply and what data you might want or need to collect to generate interesting search results.
 
-## Docker
+## Docker / Containers / Micro-services
 The second half of the hack-night activity has you use a docker container to run a micro-web service.  If you have not familiar with Docker and Containers, it is strongly suggested that you do some pre-work.  
 
 There will not be enough time on hack-night to learn Docker from scratch, so it is recommended you come in with some basic Docker knowledge.
