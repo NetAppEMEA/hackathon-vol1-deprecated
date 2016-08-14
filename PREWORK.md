@@ -18,6 +18,7 @@ What is RaspberryPI: https://www.youtube.com/watch?v=ZYPATphfGY4
 RaspPI Camera Service: https://www.youtube.com/watch?v=WNKbZsrsKVs
 
 The labs will use the following RaspberryPI hardware. If you already have a RaspberryPI you should be able to use an older device as well.
+
 1. Vilros Raspberry Pi 3 Basic Starter Kit--Clear Case Edition
 2. Arducam 5 Megapixels 1080p Sensor OV5647 Mini Camera Video Module for Raspberry Pi Model A/B/B+, Pi 2 and Raspberry Pi 3
 3. SanDisk Ultra 16GB Ultra Micro SDHC UHS-I/Class 10 Card with Adapter 
