@@ -50,6 +50,7 @@ Note: You may need to run the following command to load the camera driver.
 
 ### Module 2: Connect to S3 and Create a Bucket - Connect to ElasticSearch
 * For security reasons, the instructor will provide an email which contains information on how to connect to the SGWS S3.  The same email will provide instructions for connecting to the ElasticSearch server.
+
 1. Install a S3 browser tool like "*S3 browser*" for Windows or "*CyberDuck*" for Mac Note: CyberDuck won't allow you to set Bucket Policies.
 2. Connect, create a S3 bucket, then upload/download a file or image.
 3. Install an ElasticSearch Toolbox and connect to the ElasticSearch server.
