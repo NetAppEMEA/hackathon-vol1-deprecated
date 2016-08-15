@@ -20,6 +20,7 @@ This list is provided for the Intermediate to Advanced hacker who has already ma
   * Use the IBM Bluemix or AWS IoT tools to connect to the RaspberryPI
 
 7. NetApp Storage Related opportunities
+  * Docker plug-in integration
   * Harvest + Graphite + Grafana
   * Analytics with ASUP
   * Capacity forecasting
@@ -27,6 +28,9 @@ This list is provided for the Intermediate to Advanced hacker who has already ma
   * SolidFire opportunities? 
 
 8. And more ideas - Add your ideas here.
+  * Install Docker on RaspPI
+  http://blog.hypriot.com/post/run-docker-rpi3-with-wifi/
+  When creating containers for ARM (RPi) we’ll need to use the resin/rpi-raspbian base image in the Dockerfile
   * Add high availability (using HAproxy or another load balancer?)
   * Chaos Monkey like functionality
   * Auto scaling of services
