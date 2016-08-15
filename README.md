@@ -2,6 +2,11 @@
 
 ![alt text](https://cloud.githubusercontent.com/assets/917241/15464979/702523d0-20d2-11e6-8d88-2b71e30863d5.png "Your Challenge")
 
+![alt text](https://cloud.githubusercontent.com/assets/8753615/17655610/1e46e3e4-6265-11e6-80b2-a80222830ede.jpg "Challenge #1")
+
+![alt text](https://cloud.githubusercontent.com/assets/8753615/17655608/1caa42f6-6265-11e6-844a-8e624ff35ef7.jpg "Challenge #2")
+
+
 
 Software in this repo includes two services:
 
@@ -11,6 +16,11 @@ Software in this repo includes two services:
 *Note: Config must be set prior to build/run.*
 
 ## Plan of attack:
+
+### Step 0: Pre-work or Initial Getting Started
+* You will access the RaspberryPI using ssh.  
+** If you are on a Mac, you can simply open a Terminal window and type %> ssh pi@<rasppi IP address>
+** If you are using Windows install a tool like Putty
 
 ### Step 1: Setup S3 accessible storage
 * Create a new storage tenant, new bucket, permissions to allow anonymous read access to the bucket via bucket policies
@@ -28,7 +38,7 @@ Software in this repo includes two services:
 Perform a NOOB/raspbian installation - you will need a mouse/keyboard/monitor for the initial setup.  
 Once connected; make note of IP address and potentially move Pi somewhere in the building and Connect headless using ssh.
 Install camera app and take a photo.
-Install git and ruby, install rvm and gems. 
+Install git and ruby, install rvm and gems.
 Clone camera web service from github, update S3 and other details it will use, run camera web service and verify you can take a photo
 
 *Hints*
