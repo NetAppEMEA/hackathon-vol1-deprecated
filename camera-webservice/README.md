@@ -5,7 +5,7 @@ Two version are available, one in Ruby and one in Python; pick your poison! The 
 
 Which ever language you choose, the process to getting the webservice running is the same.  If you are really good, you can do step 1-4 in one go, but most hackers might find the incremental approach easier to follow.  
 
-1. Get the webservices running
+1. Install dependencies and then get the basic webservice running
 2. Get the webservice to snap pictures
 3. Get the webservice to upload images to S3
 4. Get the webservice to upload meta data to ElasticSearch.
@@ -16,15 +16,10 @@ Now is a good time to make sure you understand all the dependencies and packages
 This is a good time to **"Ask Google"** - *"what is boto3"* or *"how to install boto3*.  These are all open source libraries and tools.    
 
 ### Python version - based on Flask - `webservice.py` ###
-* OS Package dependencies: `python-pip`
-* Python module dependencies: `flask flask-restful boto3 elasticsearch`
-* On Windows: the above plus python module `pillow` and [CommandCam](https://batchloaf.wordpress.com/commandcam/ "CommandCam") photo software placed in same directory as `webservice.py`
+You will need to make sure Python and its dependencies are installed.  *Hint:* you will use `apt-get` and `pip`.
 
 ### Ruby version - based on Sinatra - `webservice.rb` ###
-* Install Ruby - OS Package dependencies: `ruby ruby-dev`
-* Ruby gem dependencies: `sinatra shotgun aws-sdk json elasticsearch` *Tip:  use the* `--no-document` *option to decrease time to install!!*
-* Run using: `shotgun --host 0.0.0.0 --port 8080 webservice.rb`
-
+You will need to make sure Ruby and its dependencies are installed.  *Hint:* you will have to Google how to install Ruby on RaspberryPI and then you will load dependencies using `gem`.
 
 ### Common: Steps - Configure service - `config.json` ###
 1. First rename the `config.json.example` to `config.json`
@@ -33,21 +28,21 @@ This is a good time to **"Ask Google"** - *"what is boto3"* or *"how to install 
 3. For the `camera_command` parameter these might be helpful:
   * Example linux USB camera: `fswebcam -r 640x480 --jpeg 85 --delay 1`
   * Example native raspberry camera module: `raspistill -o`
-  * Example windows usb camera: `CommandCam.exe /quiet /filename`
 
 ### Python: Step 1 - Install required packages.  Test the webservice.
 The webservice.py script has the following dependencies. Make sure these are installed.
 * OS Package dependencies: `python-pip`
 * Python module dependencies: `flask flask-restful boto3 elasticsearch`
+*Tip use:* `pip` *to install Python Modules*
 
 * Start the webservice and check that it is running.
 *Hint* Open the webservice.py file and try to understand what it is doing.
 
 ### Ruby: Step 1 - Install required packages.  Test the webservice.
 The webservice.rb script has the following dependencies. Make sure these are installed.
-* OS Package dependencies: `ruby ruby-dev`
+* OS Package dependencies: `ruby ruby-dev and install rvm and gems`
 * Ruby gem dependencies: `sinatra shotgun aws-sdk json elasticsearch`
-*Tip:  use* `--pip--` *with the* `--no-document` *option to decrease time to install!!*
+*Tip:  use* `gem` *with the* `--no-document` *option to install the Ruby packages with no documentation - which decreases time to install!!*
 
 * Start the webservice and check that it is running.
 *Hint* Open the webservice.rb file and try to understand what it is doing.
