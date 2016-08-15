@@ -1,7 +1,5 @@
 # hackathon-vol1 -- NetApp's Hackers Night!
 
-![alt text](https://cloud.githubusercontent.com/assets/917241/15464979/702523d0-20d2-11e6-8d88-2b71e30863d5.png "Your Challenge")
-
 ![alt text](https://cloud.githubusercontent.com/assets/8753615/17655610/1e46e3e4-6265-11e6-80b2-a80222830ede.jpg "Challenge #1")
 
 ![alt text](https://cloud.githubusercontent.com/assets/8753615/17655608/1caa42f6-6265-11e6-844a-8e624ff35ef7.jpg "Challenge #2")
