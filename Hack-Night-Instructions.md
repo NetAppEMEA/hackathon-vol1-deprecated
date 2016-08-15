@@ -36,6 +36,8 @@ The hack-night instructions are divided into modules to help provide structure a
 ### *=> START HERE* Get the latest Hack-night files from GitHub
 You will want to get (clone) the hack-night files from https://github.com/NetAppEMEA/hackathon-vol1
 
+Hint: You will need a clone on both the RaspberryPI and your own laptop.
+
 
 ### Module 0: Pre-Hack Night work
 Look in a file named PREWORK.md which details suggested activities to do **BEFORE** coming to hack-night.  It is encouraged that all hackers read thru the PREWORK.md document - even if that means you are doing that during the even.  
@@ -68,7 +70,16 @@ Instructions are in the *camera-webservice/README.md* file
 ### Module 6: Explore and search with ElasticSearch
 Using the ElasticSearch Toolbox tools explore the data updated by all the hackers.  Come up with an idea of what to search.  Update the your webservice to add additional meta data to upload.
 
-### Module 7: Setup Docker and web app (webapp)
+
+
+### Module 7: Setup and run Docker on your laptop
 This module will be performed on your laptop and will not require the RaspberryPI.
+
+1. Docker needs to be installed on your laptop.
+2. Test some containers such as Ubuntu and httpd.
+3. Create your own Dockerfile based on on an inherited container (aka Ubuntu or httpd)
+
+### Module 8: Run a Docker based webservice
+Clone web app from github, build a container for your web app, start container, verify you can access and take a photo.
 
 * The files and instructions can be found in the *webapp* directory.  

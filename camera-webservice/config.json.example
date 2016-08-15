@@ -1,5 +1,5 @@
 {
-  "endpoint": "https://<Your S3 Endpoint>:<Port>",
+  "endpoint": "https://<Your S3 Endpoint>",
   "bucket": "<Your S3 Bucket>",
   "access_key": "<Your Access Key for S3>",
   "secret_access_key": "<Your Secret Access Key for S3>",
