@@ -2,10 +2,10 @@
 
 The following is a list of changes and improvements which need to be implemented.
 
-1. Update camera-webservice to use Sully's suggested changes.
-  1. Use PiCamera module instead of making a system call to fswebcam.
-  2. Add additional targets for allowing camera testing.
-  3. Pull in his code from https://git.corp.netapp.com/asulliva/hacknight
+1. ~~Update camera-webservice to use Sully's suggested changes.~~
+  1. ~~Use PiCamera module instead of making a system call to fswebcam.~~
+  2. ~~Add additional targets for allowing camera testing.~~
+  3. ~~Pull in his code from https://git.corp.netapp.com/asulliva/hacknight ~~
 
 2. Add GitHub Flow module
 Add a section in the training to have users clone, branch, code, commit, then generate a GitHub pull-request.  Also have users review the pull-requests.  
