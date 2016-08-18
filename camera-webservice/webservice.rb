@@ -20,7 +20,17 @@
 # Ruby pagackage installation instructions - using 'gem'
 # gem is a package management system used to install and manage ruby packages
 #---------------------------------------
-# %> gem install shotgun sinatra aws-sdk json elasticsearch --no-document
+#  Install rvm, ruby and required gems (Ruby modules)
+#  %> apt-get install ruby ruby-dev
+#  %> gpg --keyserver hkp://keys.gnupg.net --recv-keys \
+#         409B6B1796C275462A1703113804BB82D39DC0E3
+#  %> \curl -sSL https://get.rvm.io | bash -s stable
+#  <<logout and login again>>
+#  %> gem install shotgun --no-document
+#  %> gem install aws-sdk --no-document
+#  %> gem install sinatra --no-document
+#  %> gem install json    --no-document
+#  %> gem install elasticsearch --no-document
 
 #---------------------------------------
 # include Ruby gem packages
@@ -51,8 +61,6 @@ $camera_command   = config['camera_command']
 
 # Elasticsearch host address
 es_config         = { host: config['elasticsearch_host'] }
-
-
 
 #---------------------------------------
 # initialize ElasticSearch instance
