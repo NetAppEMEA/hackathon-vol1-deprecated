@@ -8,76 +8,101 @@
 
 Software in this repo includes two services:
 
-* **camera-webservice**: Web service that exposes a RESTful API to use a local webcam to take a photo, upload it to an S3 target, and post metadata to ElasticSearch.  Two versions are available, one written in Ruby and another in Python. This can be deployed on a laptop or e.g., on a Raspberry Pi.
+* **camera-webservice**: Web service that exposes a RESTful API to use a local webcam to take a photo, upload it to an S3 target, and post metadata to ElasticSearch.  Two versions are available, one written in Python and another in Ruby. This can be deployed on a laptop or e.g., on a Raspberry Pi.
+
 * **webapp**: Web app that displays a list of camera-webservice instances known to ElasticSearch allowing you to take photos.  Includes a Dockerfile for containerized use.
 
-*Note: Config must be set prior to build/run.*
+# Hack-night instructions
 
-## Plan of attack:
+The hack-night is intended to be a lightly structured event designed to allow hackers to explore, innovate and learn.  The following instructions are provided as general roadmap to provide some structure.
 
-### Step 0: Pre-work or Initial Getting Started
-* You will access the RaspberryPI using ssh.  
-** If you are on a Mac, you can simply open a Terminal window and type %> ssh pi@<rasppi IP address>
-** If you are using Windows install a tool like Putty
+## What's Level Hacker Are You?
+Hackers are encouraged and should feel free to customize their work as they choose.
 
-### Step 1: Setup S3 accessible storage
-* Create a new storage tenant, new bucket, permissions to allow anonymous read access to the bucket via bucket policies
-* Verify success by putting data using a S3 client and downloading it via a web browser
+* **Novice hackers (NOOBS):**
+May want to follow the activity outline more closely. They may want to pair up with another Intermediate hacker for additional support.  Novice hackers should definitely review the PREWORK.md document prior to the event to make sure they are prepared to get the most out of the event.
 
-*Hints*
+The instructions provided below are most likely not detailed enough for a novice hacker.  Please contact the hack-night lead for additional supporting documentation - which provids a few more step-by-step instructins.
 
-* Get NetApp SGWS system and credentials from the hackers night leaders
-  Alternatively you can setup an AWS S3 bucket.
-* Recommended S3 clients are S3 browser for Win, and CyberDuck for Mac (CyberDuck won't allow you to set Bucket Policies)
-* Manage bucket permissions from your S3 client.  Check repo for sample policy: `bucket_policy.json`
-* On MacOSX, can also use s3cmd: `s3cmd setpolicy bucket_policy.json s3://bucketname` (make sure to configure s3cmd before that)
+* **Intermediate hackers:**
+The instructions below are written with the Intermediate hacker in mind.  The instructions are intentionally terse with the assumption that the hacker will use resources like **Google** to provide missing information.  
 
-### Step 2: Setup Raspberry Pi and camera web service (camera-webservice)
-Perform a NOOB/raspbian installation - you will need a mouse/keyboard/monitor for the initial setup.  
-Once connected; make note of IP address and potentially move Pi somewhere in the building and Connect headless using ssh.
-Install camera app and take a photo.
-Install git and ruby, install rvm and gems.
-Clone camera web service from github, update S3 and other details it will use, run camera web service and verify you can take a photo
+The intermediate hacker should explore inside the files provided in Git to look for opportunities to customize, extend and improve the implementation.
 
-*Hints*
+If you are already familiar with learnings in a particular portion of the instructions, move along as quickly as you like to the next section where you can explore new ideas and technology.    
 
-* To grow the filesystem, check out raspi-config (this may not be needed if using the latest NOOB/raspbian distribution)
-* The camera app to install for a USB webcam is called fswebcam, and don’t forget if using a native Raspberry camera, you have to enable it
-     If webcam is still not working (built-in camera on RaspberryPI 3 B unit)
-	pi@raspberrypi_01:~ $ fswebcam
-	--- Opening /dev/video0...
-	stat: No such file or directory
-	pi@raspberrypi_01:~ $ vcgencmd get_camera
-	supported=1 detected=1
-	pi@raspberrypi_01:~ $ sudo modprobe bcm2835-v4l2
-	pi@raspberrypi_01:~ $ ls /dev/video0 
-* Use git to clone the repo and configure the `camera-webservice`
-* Configure using `config.json`; details found in README.md within the camera-webservice dir
-* Once running, it exposes a URI that accepts a GET request: `/take_photo`
+* **Advanced hackers:**
+Advanced should scan the below instructions and then create there own roadmap or project.  Advanced users are also welcome to come in with their own project or an idea for advanced integration.
 
-### Step 3: Setup Docker and web app (webapp)
-Install docker machine on your laptop, test some containers (try Ubuntu and httpd), clone web app from github, build a container for your web app, start container, verify you can access and take a photo.
-Docker can now run fully packed under MacOSX (https://docs.docker.com/docker-for-mac/) and also Windows.
+* **Other Hacker ideas:**
+See the file named OtherHackerIdeas.md for some potentially interesting extensions to the hack-night activity.  Please feel free to share these ideas with the rest of the team - specifically with a focus on how these help NetApp SE's better understand 3rd Platform/DevOps customers and sales motion.  
 
-*Hints*
+## Getting help
+Google and Youtube is how the modern developer learns.  If you have a question, are getting an error message, or need to learn to do something - **Try Google first**.
 
-* Use git to clone the repo and configure the `webapp`
-* Show local container images:
- *  `docker images`
-* Run a container:
- *  `docker run --rm -p 8081:8081 <image_id>`
-* Show all running containers:
- *  `docker ps`
-* Stop a running container:
- *  `docker stop <id>`
-* Exec a command (like a shell) into a running container:
- *  `docker exec -it <container-name-or-id> bash`
-* Build a container:
- *  `docker build -t netapp/hacker .`
-* Get the IP of your docker host: (might not be needed any more in the new semi-native Docker version for MacOSX/Windows)
- *  `docker-machine ip`
-* You can also run the webservice manually, but then you also need to install all the gems as did on the camera-webservice:
- * `shotgun --host 0.0.0.0 --port 8081 webapp.rb`
+If you then get stuck - ask your teammates - We are **"Team NetApp"** - never fail alone!
 
-### Step 4: Do more!
-Try the python based camera web service on your Raspberry Pi and from your laptop, check out ElasticSearch and see what’s in it, use your smart phone somehow, make a web app to show all the photos, etc!
+If you are still stuck - ask a hack-night lead for help.
+
+## Hack-night Modules
+The hack-night instructions are divided into modules to help provide structure and to help the hack-night leaders assess progress.
+
+### *=> START HERE* Get the latest Hack-night files from GitHub
+You will want to get (clone) the hack-night files from https://github.com/NetAppEMEA/hackathon-vol1
+
+Hint: You will need a clone on both the RaspberryPI and your own laptop.
+
+Once you have cloned your workspace, create a personal Git branch since you are going to make changes
+to the source code.  Once you have made your changes on your branch, you will do a
+GitHub 'Pull Request' and push your changed back to GitHub for team review.
+
+
+### Module 0: Pre-Hack Night work
+Look in a file named PREWORK.md which details suggested activities to do **BEFORE** coming to hack-night.  It is encouraged that all hackers read thru the PREWORK.md document - even if that means you are doing that during the even.  
+
+### Module 1: Connect to RaspberryPI, Take Picture and View the image
+1. SSH to remotely connect to your RaspberryPI.
+2. Install the fswebcam and figure out how to take a picture.
+Hint: Google "fswebcam"
+Note: You may need to run the following command to load the camera driver.
+*%> sudo modprobe bcm2835-v4l2*
+3. Copy the image back to your PC (using SCP) and view the image.
+
+### Module 2: Connect to S3 and Create a Bucket - Connect to ElasticSearch
+* For security reasons, the instructor will provide an email which contains information on how to connect to the SGWS S3.  The same email will provide instructions for connecting to the ElasticSearch server.
+
+1. Install a S3 browser tool like "*S3 browser*" for Windows or "*CyberDuck*" for Mac Note: CyberDuck won't allow you to set Bucket Policies.
+2. Connect, create a S3 bucket, then upload/download a file or image.
+3. Install an ElasticSearch Toolbox and connect to the ElasticSearch server.
+
+### Module 3: Setup RaspberryPI Camera Webservice
+* The files and instructions you need are in the *camera-webservice* directory.
+* You will have the opportunity to use either the Python or the Ruby based webservice code.  
+
+### Module 4: Get Webservice to upload S3 images
+Instructions are in the *camera-webservice/README.md* file
+
+### Module 5: Get Webservice to upload ElasticSearch data
+Instructions are in the *camera-webservice/README.md* file
+
+### Module 6: Explore and search with ElasticSearch
+Using the ElasticSearch Toolbox tools explore the data updated by all the hackers.  Come up with an idea of what to search.  Update the your webservice to add additional meta data to upload.
+
+
+### Module 7: Setup and run Docker on your laptop
+This module will be performed on your laptop and will not require the RaspberryPI.
+
+1. Docker needs to be installed on your laptop.
+2. Test some containers such as Ubuntu and httpd.
+3. Create your own Dockerfile based on on an inherited container (aka Ubuntu or httpd)
+
+### Module 8: Run a Docker based webservice
+Clone web app from github, build a container for your web app, start container, verify you can access and take a photo.
+
+* The files and instructions can be found in the *webapp* directory.  
+
+### Module 9: Commit your changes back to github
+Issue a GitHub 'Pull Request' to submit your changes back to GitHub for review and merging back to mainline.
+
+### Module 10: Create your own module
+The repository has a file called "OtherHackerIdeas.md".  Attack one of those idea or come up with your own.

@@ -38,6 +38,9 @@ You will want to get (clone) the hack-night files from https://github.com/NetApp
 
 Hint: You will need a clone on both the RaspberryPI and your own laptop.
 
+Once you have cloned your workspace, create a personal Git branch since you are going to make changes
+to the source code.  Once you have made your changes on your branch, you will do a
+GitHub 'Pull Request' and push your changed back to GitHub for team review.
 
 ### Module 0: Pre-Hack Night work
 Look in a file named PREWORK.md which details suggested activities to do **BEFORE** coming to hack-night.  It is encouraged that all hackers read thru the PREWORK.md document - even if that means you are doing that during the even.  
@@ -71,7 +74,6 @@ Instructions are in the *camera-webservice/README.md* file
 Using the ElasticSearch Toolbox tools explore the data updated by all the hackers.  Come up with an idea of what to search.  Update the your webservice to add additional meta data to upload.
 
 
-
 ### Module 7: Setup and run Docker on your laptop
 This module will be performed on your laptop and will not require the RaspberryPI.
 
@@ -83,3 +85,9 @@ This module will be performed on your laptop and will not require the RaspberryP
 Clone web app from github, build a container for your web app, start container, verify you can access and take a photo.
 
 * The files and instructions can be found in the *webapp* directory.  
+
+### Module 9: Commit your changes back to github
+Issue a GitHub 'Pull Request' to submit your changes back to GitHub for review and merging back to mainline.
+
+### Module 10: Create your own module
+The repository has a file called "OtherHackerIdeas.md".  Attack one of those idea or come up with your own.

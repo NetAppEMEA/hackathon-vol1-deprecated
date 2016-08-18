@@ -41,7 +41,7 @@ config = JSON.parse(File.read(File.dirname(__FILE__) + '/config.json'))
 
 # S3 values
 $endpoint         = config['endpoint']
-$http_endpoint    = "https://" + $endpoint
+$http_endpoint    = 'https://' + $endpoint
 $bucket_name      = config['bucket']
 access_key        = config['access_key']
 secret_access_key = config['secret_access_key']
@@ -50,98 +50,89 @@ secret_access_key = config['secret_access_key']
 $camera_command   = config['camera_command']
 
 # Elasticsearch host address
-es_config         = {host: config['elasticsearch_host']}
+es_config         = { host: config['elasticsearch_host'] }
 
-# print out config info for debug
-puts "INFO: config.json values"
-puts "      S3 endpoint:      " + $endpoint
-puts "      S3 endpoint (http): " + $http_endpoint
 
-#---------------------------------------
-# initialize S3 connection instance
-#---------------------------------------
-cred = Aws::Credentials.new(access_key, secret_access_key)
-
-s3 = Aws::S3::Client.new(region: 'us-east-1', 
-                         endpoint: $http_endpoint, 
-                         credentials: cred, 
-                         force_path_style: true, 
-                         ssl_verify_peer: false) 
 
 #---------------------------------------
 # initialize ElasticSearch instance
 #---------------------------------------
 # $es = Elasticsearch::Client.new(es_config)
 
-
 #---------------------------------------
 # Return a test message for testing
 #---------------------------------------
-get "/" do
-  content_type :json
-  {:message => "Webservice is running"}.to_json
+get '/' do
+    content_type :json
+    { message: 'Webservice is running' }.to_json
 end
 
 #---------------------------------------
 # URL to take a photo
 #---------------------------------------
-get "/take_photo" do
-  content_type :json
+get '/take_photo' do
+    content_type :json
 
-  #---------------------------------------
-  # Take photo
-  #---------------------------------------
+    #---------------------------------------
+    # Take photo
+    #---------------------------------------
 
-  # Create random name for image
-  image_filename     = SecureRandom.hex(32) + ".jpg";
-  temp_image_filename = "/tmp/" + image_filename
+    # Create random name for image
+    image_filename = SecureRandom.hex(32) + '.jpg'
+    temp_image_filename = '/tmp/' + image_filename
 
-  puts "INFO: Smile the camera is taking a picture." 
-  puts "      $cli_cmd"
-  # Take picture and store it as image_name
-  cli_cmd = $camera_command + " " + temp_image_filename
-  `#{cli_cmd}`
+    puts 'INFO: Smile the camera is taking a picture.'
+    puts '      $cli_cmd'
+    # Take picture and store it as image_name
+    cli_cmd = $camera_command + ' ' + temp_image_filename
+    `#{cli_cmd}`
 
+    #---------------------------------------
+    # Upload to S3 object store repository
+    #    https://<s3 bucket>.<s3 endpoint>/<s3 key_name>  - stores the picture/object
+    #---------------------------------------
+    # # Take photo and upload to StorageGRID
+    # print out config info for debug
+    puts 'INFO: config.json values'
+    puts '      S3 endpoint:      '   + $endpoint
+    puts '      S3 endpoint (http): ' + $http_endpoint
 
-  #---------------------------------------
-  # Upload to S3 object store repository
-  #    https://<s3 bucket>.<s3 endpoint>/<s3 key_name>  - stores the picture/object
-  #---------------------------------------
-  # # Take photo and upload to StorageGRID
-  bucket = $bucket_name
+    # initialize S3 connection instance
+    cred = Aws::Credentials.new(access_key, secret_access_key)
 
-  # return full URL of image
-  image_url = $endpoint + "/" + bucket + "/" + image_filename
-  
-  # Open Image file & upload it to StorageGRID
-  File.open( temp_image_filename, 'rb' ) do |image_file|
-    s3.put_object(bucket:$bucket_name,
-                  key:image_filename,
-                  body:image_file,
-                 )
-  end
-  #image_file.close
+    s3 = Aws::S3::Client.new(endpoint: $http_endpoint,
+                             credentials: cred,
+                             force_path_style: true,
+                             ssl_verify_peer: false)
 
-  # Delete temporary image file from disk
-  # File.delete(image_file)
+    # return full URL of image
+    image_url = $http_endpoint + '/' + $bucket_name + '/' + image_filename
 
- 
-  #---------------------------------------
-  # Post image to Elasticsearch for later searching
-  #---------------------------------------
-  # # Log IP address of curent host into elasticsearch
-  # ip_address = Socket.ip_address_list[1].ip_address
-  # ts = DateTime.now.strftime('%Q').to_i
-  # $es.index index: 'raspberries', type: 'ip_info', id: ip_address, body: { timestamp: ts }
-  #
-  # # Return success message and URL to photo
-  # {:message => "Took photo with camera", :image_url => image_url}.to_json
+    # Open Image file & upload it to StorageGRID
+    File.open(temp_image_filename, 'rb') do |image_file|
+        s3.put_object(bucket: $bucket_name,
+                      key:  image_filename,
+                      body: image_file)
+    end
+    # image_file.close
 
- {:message     => "Took photo with camera",
-  :image_name  => image_filename,
-  :image_saved_at  => temp_image_filename,
-  :cli_cmd     => cli_cmd,
-  :image_url   => image_url,
- }.to_json
+    # Delete temporary image file from disk
+    # File.delete(image_file)
+
+    #---------------------------------------
+    # Post image to Elasticsearch for later searching
+    #---------------------------------------
+    # # Log IP address of curent host into elasticsearch
+    # ip_address = Socket.ip_address_list[1].ip_address
+    # ts = DateTime.now.strftime('%Q').to_i
+    # $es.index index: 'raspberries', type: 'ip_info', id: ip_address, body: { timestamp: ts }
+    #
+    # # Return success message and URL to photo
+    # {:message => "Took photo with camera", :image_url => image_url}.to_json
+
+    { message: 'Took photo with camera',
+      image_name: image_filename,
+      image_saved_at: temp_image_filename,
+      cli_cmd: cli_cmd,
+      image_url: image_url }.to_json
 end
-
