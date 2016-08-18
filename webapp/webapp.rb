@@ -27,7 +27,7 @@
 # Ruby pagackage installation instructions - using 'gem'
 # gem is a package management system used to install and manage ruby packages
 #---------------------------------------
-# %> gem install sinatra elasticsearch
+# %> gem install shotgun haml unirest sinatra elasticsearch --no-document
 
 #---------------------------------------
 # include Ruby gem packages
