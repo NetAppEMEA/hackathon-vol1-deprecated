@@ -20,7 +20,7 @@
 # Ruby pagackage installation instructions - using 'gem'
 # gem is a package management system used to install and manage ruby packages
 #---------------------------------------
-# %> gem install sinatra aws-sdk json elasticsearch
+# %> gem install shotgun sinatra aws-sdk json elasticsearch --no-document
 
 #---------------------------------------
 # include Ruby gem packages
