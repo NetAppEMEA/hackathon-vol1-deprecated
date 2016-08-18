@@ -20,7 +20,7 @@
 # Ruby pagackage installation instructions - using 'gem'
 # gem is a package management system used to install and manage ruby packages
 #---------------------------------------
-# %> gem install sinatra aws-sdk json elasticsearch
+# %> gem install shotgun sinatra aws-sdk json elasticsearch --no-document
 
 #---------------------------------------
 # include Ruby gem packages
@@ -40,25 +40,38 @@ require 'date'
 config = JSON.parse(File.read(File.dirname(__FILE__) + '/config.json'))
 
 # S3 values
-$endpoint = config['endpoint']
-$bucket_name = config['bucket']
-access_key = config['access_key']
+$endpoint         = config['endpoint']
+$http_endpoint    = "https://" + $endpoint
+$bucket_name      = config['bucket']
+access_key        = config['access_key']
 secret_access_key = config['secret_access_key']
+
 # camera command
-$camera_command = config['secret_access_key']
+$camera_command   = config['camera_command']
+
 # Elasticsearch host address
-es_config = {host: config['elasticsearch_host']}
+es_config         = {host: config['elasticsearch_host']}
+
+# print out config info for debug
+puts "INFO: config.json values"
+puts "      S3 endpoint:      " + $endpoint
+puts "      S3 endpoint (http): " + $http_endpoint
 
 #---------------------------------------
 # initialize S3 connection instance
 #---------------------------------------
 cred = Aws::Credentials.new(access_key, secret_access_key)
-$client = Aws::S3::Client.new(region: 'us-east-1', endpoint: $endpoint, credentials: cred, force_path_style: true, ssl_verify_peer: false)
+
+s3 = Aws::S3::Client.new(region: 'us-east-1', 
+                         endpoint: $http_endpoint, 
+                         credentials: cred, 
+                         force_path_style: true, 
+                         ssl_verify_peer: false) 
 
 #---------------------------------------
 # initialize ElasticSearch instance
 #---------------------------------------
-$es = Elasticsearch::Client.new(es_config)
+# $es = Elasticsearch::Client.new(es_config)
 
 
 #---------------------------------------
@@ -75,47 +88,60 @@ end
 get "/take_photo" do
   content_type :json
 
-  # Take photo and upload to StorageGRID
-  bucket = $bucket_name
-  image_url = write_webcam_image_to_s3(bucket)
+  #---------------------------------------
+  # Take photo
+  #---------------------------------------
 
-  # Log IP address of curent host into elasticsearch
-  ip_address = Socket.ip_address_list[1].ip_address
-  ts = DateTime.now.strftime('%Q').to_i
-  $es.index index: 'raspberries', type: 'ip_info', id: ip_address, body: { timestamp: ts }
-
-  # Return success message and URL to photo
-  {:message => "Took photo with camera", :image_url => image_url}.to_json
-end
-
-#------------------------------------------------------------------------------
-# sub-routines
-#------------------------------------------------------------------------------
-
-#---------------------------------------
-# sub-routine to write image to s3 bucket
-#---------------------------------------
-def write_webcam_image_to_s3(bucket)
   # Create random name for image
-  image_name = SecureRandom.hex(32) + ".jpg";
+  image_filename     = SecureRandom.hex(32) + ".jpg";
+  temp_image_filename = "/tmp/" + image_filename
 
+  puts "INFO: Smile the camera is taking a picture." 
+  puts "      $cli_cmd"
   # Take picture and store it as image_name
-  cli_cmd = $camera_command + " " + image_name
+  cli_cmd = $camera_command + " " + temp_image_filename
   `#{cli_cmd}`
 
-  # Open Image file & upload it to StorageGRID
-  image_file = File.open(image_name, "r+")
-  $client.put_object(bucket: bucket, key: image_name,
-    metadata: { 'foo' => 'bar' },
-    body: image_file.read,
-    server_side_encryption: 'AES256'
-  )
-  image_file.close
 
-  # Delete temporary image file from disk
-  File.delete(image_file)
+  #---------------------------------------
+  # Upload to S3 object store repository
+  #    https://<s3 bucket>.<s3 endpoint>/<s3 key_name>  - stores the picture/object
+  #---------------------------------------
+  # # Take photo and upload to StorageGRID
+  bucket = $bucket_name
 
   # return full URL of image
-  $endpoint + "/" + bucket + "/" + image_name
+  image_url = $endpoint + "/" + bucket + "/" + image_filename
+  
+  # Open Image file & upload it to StorageGRID
+  File.open( temp_image_filename, 'rb' ) do |image_file|
+    s3.put_object(bucket:$bucket_name,
+                  key:image_filename,
+                  body:image_file,
+                 )
+  end
+  #image_file.close
+
+  # Delete temporary image file from disk
+  # File.delete(image_file)
+
+ 
+  #---------------------------------------
+  # Post image to Elasticsearch for later searching
+  #---------------------------------------
+  # # Log IP address of curent host into elasticsearch
+  # ip_address = Socket.ip_address_list[1].ip_address
+  # ts = DateTime.now.strftime('%Q').to_i
+  # $es.index index: 'raspberries', type: 'ip_info', id: ip_address, body: { timestamp: ts }
+  #
+  # # Return success message and URL to photo
+  # {:message => "Took photo with camera", :image_url => image_url}.to_json
+
+ {:message     => "Took photo with camera",
+  :image_name  => image_filename,
+  :image_saved_at  => temp_image_filename,
+  :cli_cmd     => cli_cmd,
+  :image_url   => image_url,
+ }.to_json
 end
-# end of sub-routine
+
