@@ -214,7 +214,7 @@ def photo():
     # the label or key name it will be called in S3
     # NOTE: the key_name can be things like 'my_pic' or 'my_pictures/my_pic'
     # the key_name will represented in S3 as <endpoint>/<key_name>
-    s3_key_name = 'nacknight/' + filename
+    s3_key_name = 'hacknight/' + filename
 
     # the item we are going to store in S3
     s3_object = filename
