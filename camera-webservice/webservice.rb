@@ -26,11 +26,8 @@
 #         409B6B1796C275462A1703113804BB82D39DC0E3
 #  %> \curl -sSL https://get.rvm.io | bash -s stable
 #  <<logout and login again>>
-#  %> gem install shotgun --no-document
-#  %> gem install aws-sdk --no-document
-#  %> gem install sinatra --no-document
-#  %> gem install json    --no-document
-#  %> gem install elasticsearch --no-document
+#  %> gem install rubygems-update
+#  %> gem install shotgun aws-sdk sinatra json elasticsearch --no-document
 
 #---------------------------------------
 # include Ruby gem packages
@@ -50,6 +47,7 @@ require 'date'
 config = JSON.parse(File.read(File.dirname(__FILE__) + '/config.json'))
 
 # S3 values
+$region           = config['region']
 $endpoint         = config['endpoint']
 $http_endpoint    = 'https://' + $endpoint
 $bucket_name      = config['bucket']
@@ -84,10 +82,12 @@ get '/take_photo' do
     #---------------------------------------
     # Take photo
     #---------------------------------------
+    # get date/time to use in filename
+    now = Time.now.strftime("%Y%m%d-%H%M%S")
 
     # Create random name for image
-    image_filename = SecureRandom.hex(32) + '.jpg'
-    temp_image_filename = '/tmp/' + image_filename
+    image_filename = now + '.jpg'
+    puts "image_filename: " + image_filename
 
     puts 'INFO: Smile the camera is taking a picture.'
     puts '      $cli_cmd'
@@ -105,11 +105,11 @@ get '/take_photo' do
     puts '      S3 endpoint:      '   + $endpoint
     puts '      S3 endpoint (http): ' + $http_endpoint
 
-    # initialize S3 connection instance
-    cred = Aws::Credentials.new(access_key, secret_access_key)
-
-    s3 = Aws::S3::Client.new(endpoint: $http_endpoint,
-                             credentials: cred,
+    # initialize S3 connection instance (hardcoded to use us-west-1)
+    s3 = Aws::S3::Client.new(region: $region,
+                             endpoint: $http_endpoint,
+                             access_key_id: access_key,
+                             secret_access_key: secret_access_key,
                              force_path_style: true,
                              ssl_verify_peer: false)
 
@@ -119,7 +119,7 @@ get '/take_photo' do
     # Open Image file & upload it to StorageGRID
     File.open(temp_image_filename, 'rb') do |image_file|
         s3.put_object(bucket: $bucket_name,
-                      key:  image_filename,
+                      key:  'hacknight/ + image_filename,
                       body: image_file)
     end
     # image_file.close
