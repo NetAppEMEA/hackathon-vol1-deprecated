@@ -89,6 +89,8 @@ get '/take_photo' do
     image_filename = now + '.jpg'
     puts "image_filename: " + image_filename
 
+    temp_image_filename = '/tmp/' + image_filename
+
     puts 'INFO: Smile the camera is taking a picture.'
     puts '      $cli_cmd'
     # Take picture and store it as image_name
@@ -122,10 +124,10 @@ get '/take_photo' do
                       key:  'hacknight/' + image_filename,
                       body: image_file)
     end
-    image_file.close
+    #image_file.close
 
     # Delete temporary image file from disk
-    File.delete(image_file)
+    File.delete(temp_image_filename)
 
     #---------------------------------------
     # Post image to Elasticsearch for later searching
