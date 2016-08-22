@@ -63,7 +63,7 @@ es_config         = { host: config['elasticsearch_host'] }
 #---------------------------------------
 # initialize ElasticSearch instance
 #---------------------------------------
-# $es = Elasticsearch::Client.new(es_config)
+$es = Elasticsearch::Client.new(es_config)
 
 #---------------------------------------
 # Return a test message for testing
@@ -133,12 +133,12 @@ get '/take_photo' do
     # Post image to Elasticsearch for later searching
     #---------------------------------------
     # # Log IP address of curent host into elasticsearch
-    # ip_address = Socket.ip_address_list[1].ip_address
-    # ts = DateTime.now.strftime('%Q').to_i
-    # $es.index index: 'raspberries', type: 'ip_info', id: ip_address, body: { timestamp: ts }
-    #
+    ip_address = Socket.ip_address_list[1].ip_address
+
+    # $es.index index: 'raspberries', type: 'ip_info', id: ip_address, body: { timestamp: now }
+
     # # Return success message and URL to photo
-    # {:message => "Took photo with camera", :image_url => image_url}.to_json
+    {:message => "Took photo with camera", :image_url => image_url}.to_json
 
     { message: 'Took photo with camera',
       image_name: image_filename,
