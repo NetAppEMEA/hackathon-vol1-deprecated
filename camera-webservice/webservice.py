@@ -2,17 +2,20 @@
 ##########################################################################
 # Camera Web Service Program
 #
-# This program uses two key tools Flask and Elasticsearch
+# This program uses three key tools Flask, boto3 and Elasticsearch
 # Flask - Flask is a microframework for Python based on Werkzeug, Jinja 2 and good intentions.
 #         It provides a built-iin development server and debugger.  It handles RESTful
 #         request dispatching.
+# boto3 - is the Amazon Web Services (AWS) Software Development Kit (SDK) for
+#         Python, which allows Python developers to write software that makes
+#         use of services like Amazon S3 and Amazon EC2.
 # Elasticsearch - is a search engine based on Lucene. It provides a distributed,
 #         multitenant-capable full-text search engine with an HTTP web interface
 #         and schema-free JSON documents.
 #
 # Run this program
-#         %> python camera-webservice
-#         %> ./camera-webservice
+#         %> python webservice.py
+#         %> ./webservice.py
 #
 # Code Example References
 #     flask-restul api quickstart: http://flask-restful-cn.readthedocs.io/en/0.3.4/quickstart.html
@@ -54,15 +57,6 @@ import sys
 import fcntl
 import struct
 
-
-#---------------------------------------
-# check if this script is running on Windows
-#---------------------------------------
-#    os.name The name of the operating system dependent module imported.
-# The following names have currently been registered: 'posix', 'nt',
-# 'mac', 'os2', 'ce', 'java', 'riscos'.
-if os.name == 'nt':
-    from PIL import Image
 
 #---------------------------------------
 # create instance of Flask and Flask-RESTful API
@@ -250,31 +244,36 @@ def photo():
 
     # handle any errors which might occur
     except botocore.exceptions.ClientError as e:
-        print "Unexpected error: %s" % e
+        print "Unexpected error during S3 upload: %s" % e
 
     #---------------------------------------
     # Post image to Elasticsearch for later searching
     #---------------------------------------
-    print("--- Post image to Elasticsearch at: " + conf['elasticsearch_host'])
-    es = Elasticsearch(
-                        [conf['elasticsearch_host']],
-                        port=443,
-                        use_ssl=True,
-                        )
-    ts = int(round(time.time() * 1000))
-    # data to post
-    res = es.index(index='raspberries',
-                   doc_type='ip_info',
-                   id=ip_address,
-                   body={
-                       'hostname':  hostname,
-                       'timestamp': ts,
-                       'date':      datetime.datetime.now()
-                   }
-                   )
-    print("--- Post complete: ")
-    print(" response: '%s'" % (res))
-    print(res['created'])
+    try:
+        print("--- Post image to Elasticsearch at: " + conf['elasticsearch_host'])
+        es = Elasticsearch(
+                            [conf['elasticsearch_host']],
+                            port=443,
+                            use_ssl=True,
+                            )
+        ts = int(round(time.time() * 1000))
+        # data to post
+        res = es.index(index='raspberries',
+                       doc_type='ip_info',
+                       id=ip_address,
+                       body={
+                           'hostname':  hostname,
+                           'timestamp': ts,
+                           'date':      datetime.datetime.now()
+                       }
+                       )
+        print("--- Post complete: ")
+        print(" response: '%s'" % (res))
+        print(res['created'])
+
+    # if error/exception occurs
+    except elasticsearch.ElasticsearchException as es1:
+        print "Unexpected error during Elasticsearch upload %s" % es1
 
     #---------------------------------------
     # Return success
