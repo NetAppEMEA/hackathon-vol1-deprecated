@@ -105,7 +105,7 @@ get '/take_photo' do
     puts '      S3 endpoint:      '   + $endpoint
     puts '      S3 endpoint (http): ' + $http_endpoint
 
-    # initialize S3 connection instance (hardcoded to use us-west-1)
+    # initialize S3 connection instance
     s3 = Aws::S3::Client.new(region: $region,
                              endpoint: $http_endpoint,
                              access_key_id: access_key,
@@ -119,13 +119,13 @@ get '/take_photo' do
     # Open Image file & upload it to StorageGRID
     File.open(temp_image_filename, 'rb') do |image_file|
         s3.put_object(bucket: $bucket_name,
-                      key:  'hacknight/ + image_filename,
+                      key:  'hacknight/' + image_filename,
                       body: image_file)
     end
-    # image_file.close
+    image_file.close
 
     # Delete temporary image file from disk
-    # File.delete(image_file)
+    File.delete(image_file)
 
     #---------------------------------------
     # Post image to Elasticsearch for later searching
