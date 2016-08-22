@@ -32,31 +32,39 @@ You will need to make sure Ruby and its dependencies are installed.  *Hint:* you
 ### Python: Step 1 - Install required packages.  Test the webservice.
 The webservice.py script has the following dependencies. Make sure these are installed.
 * OS Package dependencies: `python-pip`
-* Python module dependencies: `flask flask-restful boto3 elasticsearch`
+* Python module dependencies: `flask flask-restful pillow boto3 elasticsearch picamera `
 *Tip use:* `pip` *to install Python Modules*
 
 * Start the webservice and check that it is running.
-*Hint* Open the webservice.py file and try to understand what it is doing.
+*Hint* Open the webservice.py program file and try to understand what it is doing.
+
 
 ### Ruby: Step 1 - Install required packages.  Test the webservice.
 The webservice.rb script has the following dependencies. Make sure these are installed.
 * OS Package dependencies: `ruby ruby-dev and install rvm and gems`
-* Ruby gem dependencies: `sinatra shotgun aws-sdk json elasticsearch`
+*    also install rubygems-update
+* Ruby gem dependencies: `shotgun aws-sdk sinatra json elasticsearch`
 *Tip:  use* `gem` *with the* `--no-document` *option to install the Ruby packages with no documentation - which decreases time to install!!*
+
+    Install rvm, ruby and required gems (Ruby modules)
+    %> apt-get install ruby ruby-dev
+    %> gpg --keyserver hkp://keys.gnupg.net --recv-keys \
+           409B6B1796C275462A1703113804BB82D39DC0E3
+    %> \curl -sSL https://get.rvm.io | bash -s stable
 
 * Start the webservice and check that it is running.
 *Hint* Open the webservice.rb file and try to understand what it is doing.
 * Run using: `shotgun --host 0.0.0.0 --port 8080 webservice.rb`
 
 
-### Common: Step 2 - Test the webcamera
-* Verify that images are being taken.  
-* Why aren't the images saved?
+### Common: Step 2 - Test the webservice is running
+* Load the browser to http://<ip address>:8080  
+* Debug: if errors, check that the program packages are installed.
 
-### Common: Step 3 - Test the S3 Object upload
-* View the objects using the S3 Browser/CyberDuck.
-* Change the bucket the images a place in.
+### Common: Step 3 - Test taking a simple picture
+* Load the browser to http://<ip address>:8080/test
+* Did you see a picture.  If the camera did not work, go back and test that fswebcam is working.
 
-### Common: Step 4 - Test the ElasticSearch upload
-* Modify/Add ElasticSearch meta data being uploaded.
-* Look at the uploaded data using the ElasticSearch Toolbox
+### Common: Step 4 - Test the S3 and ElasticSearch upload
+* Load the browser to http://<ip address>:8080/photo
+* If errors, check the S3 and ElasticSearch settings in the config.json file.

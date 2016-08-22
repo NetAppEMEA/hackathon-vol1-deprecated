@@ -33,11 +33,13 @@
 # include Ruby gem packages
 # require <module/package>
 #---------------------------------------
+require 'rubygems'
 require 'sinatra'
 require 'json'
 require 'aws-sdk'
 require 'socket'
 require 'elasticsearch'
+require 'haml'
 require 'securerandom'
 require 'date'
 
@@ -65,18 +67,64 @@ es_config         = { host: config['elasticsearch_host'] }
 #---------------------------------------
 $es = Elasticsearch::Client.new(es_config)
 
+
+
 #---------------------------------------
-# Return a test message for testing
+# # RESTful call when http://<ip address>/ is called
 #---------------------------------------
 get '/' do
-    content_type :json
-    { message: 'Webservice is running' }.to_json
+  # # Log IP address of curent host into elasticsearch
+  ip_address = Socket.ip_address_list[1].ip_address
+  hostname = Socket.gethostname()
+
+  # return a HTML message in the browser indicating the Webservice is running
+  my_message2 = "TEST camera only: http://" + ip_address + ":8080/test"
+  my_message3 = "To take take picture, upload to S3 and Elasticsearch: http://" + ip_address + ":8080/photo"
+#  my_message4 = "To list photos: http://" + ip_address + ":8080/list"
+
+  content_type :json
+  { message: 'Webservice is running',
+    message2: my_message2,
+    message3: my_message3,
+#    message4: my_message4,
+  }.to_json
 end
 
 #---------------------------------------
-# URL to take a photo
+# RESTful call when http://<ip address>/test is called
+#   this call takes a picture and displays it on the screen
 #---------------------------------------
-get '/take_photo' do
+get '/test' do
+
+  #---------------------------------------
+  # Take photo
+  #---------------------------------------
+  # get date/time to use in filename
+  now = Time.now.strftime("%Y%m%d-%H%M%S")
+
+  # Create random name for image
+  image_filename = now + '.jpg'
+  puts "image_filename: " + image_filename
+
+  temp_image_filename = '/tmp/' + image_filename
+
+  puts 'INFO: Smile the camera is taking a picture.'
+  puts '      $cli_cmd'
+  # Take picture and store it as image_name
+  cli_cmd = $camera_command + ' ' + temp_image_filename
+  `#{cli_cmd}`
+
+  # display picture
+  send_file(temp_image_filename)
+
+end
+
+#---------------------------------------
+# RESTful call when http://<ip address>/photo is called
+# photo - collection of sub-routines
+# to call the camera, upload to S3 and store info in elasticsearch
+#---------------------------------------
+get '/photo' do
     content_type :json
 
     #---------------------------------------
@@ -124,7 +172,6 @@ get '/take_photo' do
                       key:  'hacknight/' + image_filename,
                       body: image_file)
     end
-    #image_file.close
 
     # Delete temporary image file from disk
     File.delete(temp_image_filename)
@@ -132,12 +179,25 @@ get '/take_photo' do
     #---------------------------------------
     # Post image to Elasticsearch for later searching
     #---------------------------------------
+    puts "INFO: Post image to Elasticsearch at: " + config['elasticsearch_host']
+
     # # Log IP address of curent host into elasticsearch
     ip_address = Socket.ip_address_list[1].ip_address
+    hostname = Socket.gethostname()
+    ts = Time.now.getutc
 
-    # $es.index index: 'raspberries', type: 'ip_info', id: ip_address, body: { timestamp: now }
+    $es.index index: 'raspberries',
+              type: 'ip_info',
+              id: ip_address,
+              body: {
+                      hostname: hostname,
+                      time_stamp: ts,
+                      date: now
+                    }
 
-    # # Return success message and URL to photo
+    #---------------------------------------
+    # Return success message and URL to photo
+    #---------------------------------------
     {:message => "Took photo with camera", :image_url => image_url}.to_json
 
     { message: 'Took photo with camera',
