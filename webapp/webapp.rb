@@ -37,6 +37,7 @@ require 'sinatra'
 require 'unirest'
 require 'elasticsearch'
 require 'date'
+require 'bundler/setup'
 
 #---------------------------------------
 # configure Elasticsearch
@@ -45,12 +46,10 @@ require 'date'
 # Elasticsearch host address
 # NOTE: use the same elasticsearch host from the camera-webservice config.json
 # Example:    es_config = {host: "10.65.57.29:9200"}
-es_config = "NOT_SET"
-es_config = "https://search-netapp-hackernet-vjwfdxrvkvs56u6g6d56mwjhsi.us-west-2.es.amazonaws.com/"
-if es_config == "NOT_SET" {
-  print("ERROR: Elasticsearch host config not set.")
-  exit
-}
+#es_config = "https://search-netapp-hackernet1-ackkiroy2wwz72pevo63v7yx6u.us-west-2.es.amazonaws.com/"
+# Elasticsearch host address
+es_config         = { host: "https://search-netapp-hackernet1-ackkiroy2wwz72pevo63v7yx6u.us-west-2.es.amazonaws.com/" }
+
 
 # instantiate Elasticsearch instance
 es = Elasticsearch::Client.new(es_config)

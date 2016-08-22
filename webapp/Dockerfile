@@ -6,6 +6,8 @@ RUN gem install shotgun
 RUN gem install unirest
 RUN gem install haml
 RUN gem install elasticsearch
+RUN gem install rubygems-update
+RUN gem install bundler
 
 RUN mkdir /sinatra
 COPY / /sinatra/
