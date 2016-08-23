@@ -58,7 +58,7 @@ GitHub 'Pull Request' and push your changed back to GitHub for team review.
 
 
 ### Module 0: Pre-Hack Night work
-Look in a file named PREWORK.md which details suggested activities to do **BEFORE** coming to hack-night.  It is encouraged that all hackers read thru the PREWORK.md document - even if that means you are doing that during the even.  
+Look in a file named PREWORK.md which details suggested activities to do **BEFORE** coming to hack-night.  It is encouraged that all hackers read thru the PREWORK.md document - even if that means you are doing that during the event.  
 
 ### Module 1: Connect to RaspberryPI, Take Picture and View the image
 1. SSH to remotely connect to your RaspberryPI.
