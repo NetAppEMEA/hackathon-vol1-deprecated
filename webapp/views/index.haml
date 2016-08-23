@@ -5,7 +5,7 @@
       %h1 Picture Viewer with a remote Webcam
     .content
       - @ips.each do |ip|
-        %a(href="/take_photo/#{ip}")> Take new photo on Raspberry #{ip}
+        %a(href="/photo/#{ip}")> Take new photo on Raspberry #{ip}
         %br
     .footer
       %p Hackathon - Vol 1 - 2016
