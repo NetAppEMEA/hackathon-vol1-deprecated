@@ -75,13 +75,13 @@ end
 
 #---------------------------------------
 # Show take photo page
-#    http://<ip_address>/take_photo/<remote_raspi ip_address>
+#    http://<ip_address>/photo/<remote_raspi ip_address>
 #---------------------------------------
-get "/take_photo/:ip" do
+get "/photo/:ip" do
   raspberry_ip = params[:ip]
 
   # Call webservice endopoint
-  response = Unirest.get "http://#{raspberry_ip}:8080/take_photo"
+  response = Unirest.get "http://#{raspberry_ip}:8080/photo"
   @image_url = response.body['image_url'].to_s
 
   haml :show_photo
