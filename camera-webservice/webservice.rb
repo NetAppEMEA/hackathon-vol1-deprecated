@@ -49,12 +49,12 @@ require 'date'
 config = JSON.parse(File.read(File.dirname(__FILE__) + '/config.json'))
 
 # S3 values
-$region           = config['region']
-$endpoint         = config['endpoint']
+$region           = config['s3_region']
+$endpoint         = config['s3_endpoint']
 $http_endpoint    = 'https://' + $endpoint
-$bucket_name      = config['bucket']
-access_key        = config['access_key']
-secret_access_key = config['secret_access_key']
+$bucket_name      = config['s3_bucket']
+access_key        = config['s3_access_key']
+secret_access_key = config['s3_secret_access_key']
 
 # camera command
 $camera_command   = config['camera_command']

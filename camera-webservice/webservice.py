@@ -162,8 +162,8 @@ def testCamera():
 def listPhotos():
     # connect to s3
     session = boto3.session.Session(
-        aws_access_key_id=conf['access_key'],
-        aws_secret_access_key=conf['secret_access_key']
+        aws_access_key_id=conf['s3_access_key'],
+        aws_secret_access_key=conf['s3_secret_access_key']
     )
 
     client = session.client('s3')
@@ -172,7 +172,7 @@ def listPhotos():
     return make_response(
         jsonify(
             client.list_objects(
-                Bucket=conf['bucket'],
+                Bucket=conf['s3_bucket'],
                 Prefix='hacknight/',
                 Delimiter='/'
             )
@@ -200,10 +200,10 @@ def photo():
     print("--- Writing image to S3 Object storage...")
 
     # S3 endpoint url  (s3.amazon.com)
-    s3_endpoint = conf['endpoint']
+    s3_endpoint = conf['s3_endpoint']
 
     # get the S3 bucket name from the config.json file
-    s3_bucket = conf['bucket']
+    s3_bucket = conf['s3_bucket']
 
     # the label or key name it will be called in S3
     # NOTE: the key_name can be things like 'my_pic' or 'my_pictures/my_pic'
@@ -221,8 +221,8 @@ def photo():
         # connect to S3 using boto3 API by passing access key and secret access keys.
         # the S3 endpoint is inferred from the key pair upon connection
         session = boto3.session.Session(
-            aws_access_key_id=conf['access_key'],
-            aws_secret_access_key=conf['secret_access_key']
+            aws_access_key_id=conf['s3_access_key'],
+            aws_secret_access_key=conf['s3_secret_access_key']
         )
         s3 = session.resource(service_name='s3')
 
@@ -314,10 +314,10 @@ if __name__ == '__main__':
     try:
         with open('config.json') as data_file:
             conf = json.load(data_file)
-            conf['endpoint']
-            conf['bucket']
-            conf['access_key']
-            conf['secret_access_key']
+            conf['s3_endpoint']
+            conf['s3_bucket']
+            conf['s3_access_key']
+            conf['s3_secret_access_key']
             conf['elasticsearch_host']
             conf['camera_command']
 
