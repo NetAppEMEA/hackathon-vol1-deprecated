@@ -33,10 +33,11 @@ One service is available:
 * To detach yourself from the container, use the escape sequence CTRL+P followed by CTRL+Q.
 
 ## *Cheaters* Detailed instructions for running the Docker webclient
+
  	1. Download and install docker on your pc.
 
  	2. Complete both the Docker installation and Quickstart instructions.
-  https://docs.docker.com/engine/getstarted/step_one/
+     https://docs.docker.com/engine/getstarted/step_one/
 
  	3. Run a simple container to verify it works (try other words instead of boo):
  	docker run docker/whalesay cowsay boo
@@ -91,13 +92,15 @@ One service is available:
  	$ docker images
  	$ docker run -it -p 8081:8081 netapp/webapp
 
- To detach yourself from the container, use the escape sequence CTRL+P followed by CTRL+Q.  9. Go to http://DOCKER-MACHINE-IP:8081 and see if it loads.  Take a picture and see if it loads.
+ To detach yourself from the container, use the escape sequence CTRL+P followed by CTRL+Q.  
+
+  9. Go to http://DOCKER-MACHINE-IP:8081 and see if it loads.  Take a picture and see if it loads.
 
   10. Start hacking.  Change to manage a different camera (don’t forget to stop your container or run a new one on a different port), or extend the service to allow taking photos from multiple cameras, or whatever.  Hack!
 
 ##Docker Tips and Tricks
- 	• %> docker build -t my_webservice .
- 	• %> docker run -name my_webservice_1 -i -t my_webservice
- 	• %> docker ps
- 	• %> docker ps -l
- 	• %> docker kill <id>
+ 	%> docker build -t my_webservice .
+ 	%> docker run -name my_webservice_1 -i -t my_webservice
+ 	%> docker ps
+ 	%> docker ps -l
+ 	%> docker kill <id>
