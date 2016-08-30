@@ -47,46 +47,47 @@ One service is available:
 4. And another, this time lets run Ubuntu latest with an interactive shell:
   * $ docker run -it ubuntu:latest bash
 
-```
-root@93330ed8220c:/# cat /etc/*rel*
-DISTRIB_ID=Ubuntu
-DISTRIB_RELEASE=16.04
-DISTRIB_CODENAME=xenial
-DISTRIB_DESCRIPTION="Ubuntu 16.04 LTS"
-root@93330ed8220c:/# ps -ef
-UID        PID  PPID  C STIME TTY          TIME CMD
-root         1     0  1 09:45 ?        00:00:00 bash
-root         9     1  0 09:45 ?        00:00:00 ps –ef
-root@93330ed8220c:/# exit
-```
+  ```
+  root@93330ed8220c:/# cat /etc/*rel*
+  DISTRIB_ID=Ubuntu
+  DISTRIB_RELEASE=16.04
+  DISTRIB_CODENAME=xenial
+  DISTRIB_DESCRIPTION="Ubuntu 16.04 LTS"
+  root@93330ed8220c:/# ps -ef
+  UID        PID  PPID  C STIME TTY          TIME CMD
+  root         1     0  1 09:45 ?        00:00:00 bash
+  root         9     1  0 09:45 ?        00:00:00 ps –ef
+  root@93330ed8220c:/# exit
+  ```
 
 5. Or a webserver with Apache httpd latest:
   * $ docker run -dit -p 9000:80 httpd:latest
   * $ docker ps
 
-```
-CONTAINER ID        IMAGE                                  COMMAND                  CREATED             STATUS              PORTS                                                       NAMES
-00612874ff26        httpd:latest                           "httpd-foreground"       3 seconds ago       Up 2 seconds        0.0.0.0:9000->80/tcp                                        hungry_williams
-```
+  ```
+  CONTAINER ID        IMAGE                                  COMMAND                  CREATED             STATUS              PORTS                                                       NAMES
+  00612874ff26        httpd:latest                           "httpd-foreground"       3 seconds ago       Up 2 seconds        0.0.0.0:9000->80/tcp                                        hungry_williams
+  ```
 
-<<So this is mapping port 80 in the container to port 9000 on the docker host.  Run docker-machine ip to get your docker host IP.  Then open http://DOCKER-MACHINE-IP:9000 and see if it works>>
-<<Now exec a command to open shell in that container>>
-$ docker exec -i -t 006 bash
+  * <<So this is mapping port 80 in the container to port 9000 on the docker host.  
+  * Run docker-machine ip to get your docker host IP.  Then open http://DOCKER-MACHINE-IP:9000 and see if it works>>
+  * <<Now exec a command to open shell in that container>>
+  * $ docker exec -i -t 006 bash
 
-```
-root@00612874ff26:/usr/local/apache2# ps -ef
-UID        PID  PPID  C STIME TTY          TIME CMD
-root         1     0  0 10:05 ?        00:00:00 httpd -DFOREGROUND
-daemon       6     1  0 10:05 ?        00:00:00 httpd -DFOREGROUND
-daemon       7     1  0 10:05 ?        00:00:00 httpd -DFOREGROUND
-daemon       8     1  0 10:05 ?        00:00:00 httpd -DFOREGROUND
-root        90     0  0 10:05 ?        00:00:00 bash
-root        93    90  0 10:05 ?        00:00:00 ps –ef
-root@00612874ff26:/usr/local/apache2# kill 1
-<<Because you killed the process that initiated the container it now stops too!>
-$ docker ps
-CONTAINER ID        IMAGE                                  COMMAND                  CREATED             STATUS              PORTS                                                       NAMES
-``` 
+  ```
+  root@00612874ff26:/usr/local/apache2# ps -ef
+  UID        PID  PPID  C STIME TTY          TIME CMD
+  root         1     0  0 10:05 ?        00:00:00 httpd -DFOREGROUND
+  daemon       6     1  0 10:05 ?        00:00:00 httpd -DFOREGROUND
+  daemon       7     1  0 10:05 ?        00:00:00 httpd -DFOREGROUND
+  daemon       8     1  0 10:05 ?        00:00:00 httpd -DFOREGROUND
+  root        90     0  0 10:05 ?        00:00:00 bash
+  root        93    90  0 10:05 ?        00:00:00 ps –ef
+  root@00612874ff26:/usr/local/apache2# kill 1
+  <<Because you killed the process that initiated the container it now stops too!>
+  $ docker ps
+  CONTAINER ID        IMAGE                                  COMMAND                  CREATED             STATUS              PORTS                                                       NAMES
+  ```
 
 6. Clone the hackathon repo from git to get the webclient code and cd into it:
   * $ git clone https://github.com/NetAppEMEA/hackathon-vol1
