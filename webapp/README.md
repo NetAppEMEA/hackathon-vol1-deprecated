@@ -5,36 +5,38 @@ One service is available:
 * `webapp.rb`: Web app written in Ruby using Sinatra. Includes a Dockerfile for containerized use.
 * Use the dockerfile to build a container and run it on your laptop/host
 
-%> gem install shotgun haml unirest sinatra elasticsearch --no-document
 
 ### Setup Docker and web app (webapp)
-Install docker machine on your laptop, test some containers (try Ubuntu and httpd), clone web app from github, build a container for your web app, start container, verify you can access and take a photo.
+1. Install docker machine on your laptop.
+2. Test that Docker is running properly. Test some containers (try Ubuntu and httpd).
+   Complete the Docker quickstart if you need to learn about Docker.  Did you try Whalesay?
+3. Clone webapp from github to your laptop.
+4. Build a container for your webapp, the run the container.
+   Verify you can access the webapp and take a photos from remote RaspPis.
 
 *Hints*
-
 * Use git to clone the repo and configure the `webapp`
 * Show local container images:
  *  `docker images`
+ * Build a container:
+  *  `docker build -t netapp/hacker .`
 * Run a container:
- *  `docker run --rm -p 8081:8081 <image_id>`
+ *  `docker run --rm -it -p 8081:8081 <image_id>`
 * Show all running containers:
  *  `docker ps`
 * Stop a running container:
  *  `docker stop <id>`
 * Exec a command (like a shell) into a running container:
  *  `docker exec -it <container-name-or-id> bash`
-* Build a container:
- *  `docker build -t netapp/hacker .`
-* Get the IP of your docker host: (might not be needed any more in the new semi-native Docker version for MacOSX/Windows)
- *  `docker-machine ip`
 * You can also run the webservice manually, but then you also need to install all the gems as did on the camera-webservice:
  * `shotgun --host 0.0.0.0 --port 8081 webapp.rb`
+* To detach yourself from the container, use the escape sequence CTRL+P followed by CTRL+Q.
 
+## *Cheaters* Detailed instructions for running the Docker webclient
+ 	1. Download and install docker on your pc.
 
-##Basic instructions webclient (docker container)
- 	1. Download and install docker toolbox on your pc (or docker engine on a linux box if you have one somewhere on the NetApp network)
-
- 	2. Open the docker quickstart terminal MINGW32
+ 	2. Complete both the Docker installation and Quickstart instructions.
+  https://docs.docker.com/engine/getstarted/step_one/
 
  	3. Run a simple container to verify it works (try other words instead of boo):
  	docker run docker/whalesay cowsay boo
@@ -87,9 +89,9 @@ Install docker machine on your laptop, test some containers (try Ubuntu and http
  	$ cd hackathon-vol1/webapp
  	$ docker build -t netapp/webapp .
  	$ docker images
- 	$ docker run -p 8081:8081 netapp/webapp
+ 	$ docker run -it -p 8081:8081 netapp/webapp
 
-  9. Go to http://DOCKER-MACHINE-IP:8081 and see if it loads.  Take a picture and see if it loads.
+ To detach yourself from the container, use the escape sequence CTRL+P followed by CTRL+Q.  9. Go to http://DOCKER-MACHINE-IP:8081 and see if it loads.  Take a picture and see if it loads.
 
   10. Start hacking.  Change to manage a different camera (don’t forget to stop your container or run a new one on a different port), or extend the service to allow taking photos from multiple cameras, or whatever.  Hack!
 
@@ -99,4 +101,3 @@ Install docker machine on your laptop, test some containers (try Ubuntu and http
  	• %> docker ps
  	• %> docker ps -l
  	• %> docker kill <id>
- To detach yourself from the container, use the escape sequence CTRL+P followed by CTRL+Q.
