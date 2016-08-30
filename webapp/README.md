@@ -46,6 +46,7 @@ One service is available:
 
 4. And another, this time lets run Ubuntu latest with an interactive shell:
   * $ docker run -it ubuntu:latest bash
+
 ```
 root@93330ed8220c:/# cat /etc/*rel*
 DISTRIB_ID=Ubuntu
