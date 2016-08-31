@@ -48,7 +48,7 @@ require 'bundler/setup'
 # Example:    es_config = {host: "10.65.57.29:9200"}
 #es_config = "https://search-netapp-hackernet1-ackkiroy2wwz72pevo63v7yx6u.us-west-2.es.amazonaws.com/"
 # Elasticsearch host address
-es_config         = { host: "https://search-netapp-hackernet1-ackkiroy2wwz72pevo63v7yx6u.us-west-2.es.amazonaws.com/" }
+es_config         = { host: "https://search-netapp-hackernet-vjwfdxrvkvs56u6g6d56mwjhsi.us-west-2.es.amazonaws.com/" }
 
 
 # instantiate Elasticsearch instance
