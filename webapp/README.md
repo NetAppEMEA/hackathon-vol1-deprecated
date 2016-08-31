@@ -8,9 +8,9 @@ One service is available:
 
 ### Setup Docker and web app (webapp)
 1. Install docker machine on your laptop.
-2. Test that Docker is running properly. Test some containers (try Ubuntu and httpd).
+2. Test that Docker is running properly. Test some containers (try docker/whalesay, Ubuntu and nginx examples).
   * Complete the Docker quickstart if you need to learn about Docker.  Did you try Whalesay?
-3. Clone webapp from github to your laptop.
+3. Clone hacker event code from github to your laptop.
 4. Build a container for your webapp, the run the container.
   * Verify you can access the webapp and take a photos from remote RaspPis.
 
@@ -89,7 +89,7 @@ One service is available:
 7. Edit the webapp to set your desired camera IP
 	  * `cd hackathon-vol1/webapp`
 	  * `nano webapp.rb`
-    check that the path to the Elastricsearch server is correct.  Look at the webapp.rb code.
+      check that the path to the Elastricsearch server is correct.  Look at the webapp.rb code.
 
 8. Build and run container
 	  * `cd hackathon-vol1/webapp`
@@ -97,8 +97,15 @@ One service is available:
 	  * `docker images`
 	  * `docker run -it -p 8081:8081 netapp/webapp`
 
-To detach yourself from the container, use the escape sequence CTRL+P followed by CTRL+Q.  
+    To detach yourself from the container, use the escape sequence CTRL+P followed by CTRL+Q.  
 
-9. Go to http://DOCKER-MACHINE-IP:8081 and see if it loads.  Take a picture and see if it loads.
+    If you change the webapp.rb file, you need to rebuild the docker image to use the updated Ruby file.
+
+9. Go to http://localhost:8081 and see if it loads.  Take a picture and see if it loads.
 
 10. Start hacking.  Change to manage a different camera (don’t forget to stop your container or run a new one on a different port), or extend the service to allow taking photos from multiple cameras, or whatever.  Hack!
+
+## More hacking ideas - Keep Going!
+1. Learn HAML and create a nicer webpage.
+2. Improve the Elasticsearch search to look for RaspberryPI units which posted in the last hour.  In other words filter out RaspberryPI entries from prior hacker events.
+3. Update the HAML to show the image captured by the remote RaspberryPI.  
