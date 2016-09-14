@@ -213,8 +213,8 @@ def photo():
     # the item we are going to store in S3
     s3_object = filename
 
-    # report path where the picture is uploaded
-    s3_url = 'https://' + s3_bucket + '.' + s3_endpoint + '/' + s3_key_name
+    # report path where the picture is uploaded (path style for compatability)
+    s3_url = 'https://' + s3_endpoint + '/' + s3_bucket + '/' + s3_key_name
     print("--- S3 upload path: " + s3_url)
 
     try:
