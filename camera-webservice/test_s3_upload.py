@@ -40,10 +40,11 @@ from boto3.s3.transfer import S3Transfer
 try:
 	with open('config.json') as data_file:    
 		conf = json.load(data_file)
-		conf['endpoint']
-		conf['bucket']
-		conf['access_key']
-		conf['secret_access_key']
+		conf['s3_region']
+		conf['s3_endpoint']
+		conf['s3_bucket']
+		conf['s3_access_key']
+		conf['s3_secret_access_key']
 		conf['elasticsearch_host']
 		conf['camera_command']
 
@@ -54,74 +55,85 @@ except Exception as e:
 
 
 
+s3_object   = '/home/pi/image.jpg'
+s3_key_name = 'nacknight/image.jpg'
+filename = 'image.jpg'
+
+#---------------------------------------
+# Upload to S3 object store repository
+#    https://<s3 bucket>.<s3 endpoint>/<s3 key_name>  - stores the picture/object
+#---------------------------------------
+print("--- Writing image to S3 Object storage...")
+
+# S3 endpoint url  (s3.amazon.com)
+s3_endpoint = conf['s3_endpoint']
+
+# get the S3 bucket name from the config.json file
+s3_bucket = conf['s3_bucket']
+
+# the label or key name it will be called in S3
+# NOTE: the key_name can be things like 'my_pic' or 'my_pictures/my_pic'
+# the key_name will represented in S3 as <endpoint>/<key_name>
+s3_key_name = 'hacknight/' + filename
+
+# the item we are going to store in S3
+s3_object = filename
+
+
+
 try:
-        s3_object   = "/home/pi/hackathon-vol1/camera-webservice/4e0b2dd2-1658-4537-91a4-3bd4176c278b.jpg"
-        s3_key_name = 'nacknight/4e4b2dd2-1658-4537-91a4-3bd4176c278b.jpg'
-
-	#--------------------------------------- 
-	# Upload to S3 object store repository
-	#--------------------------------------- 
+        # connect to S3 using boto3 API by passing access key and secret access keys.
+        # the S3 endpoint is inferred from the key pair upon connection
         session = boto3.session.Session(
-            aws_access_key_id=conf['access_key'], 
-            aws_secret_access_key=conf['secret_access_key']
+            aws_access_key_id=conf['s3_access_key'],
+            aws_secret_access_key=conf['s3_secret_access_key']
         )
-        s3 = session.resource(service_name='s3')
+
+        # if end point is AWS S3  
+        if 'amazonaws.com' in s3_endpoint:
+           print("---   AWS Upload ---")
+           s3_url = 'https//:' + s3_endpoint + '/' + s3_bucket + '/' + s3_key_name
+
+           s3 = session.resource(service_name='s3')
+
+        else:
+           print("---   SGWS Upload ---")
+           s3_endpoint = "https://" + conf['s3_endpoint'] + ":443"
+
+           s3_url = s3_endpoint + '/' + s3_bucket + '/' + s3_key_name
+
+           s3 = session.resource(service_name='s3', 
+                                 endpoint_url=s3_endpoint, 
+                                 verify=False
+                                )
+
+        # report path where the picture is uploaded (path style for compatability)
+        print("--- S3 upload path: " + s3_url)
+           
+        # defined a new S3 object by specifying the bucket and key_name that you
+        # will store the file
         obj = s3.Object(
-            conf['bucket'], 
-            s3_key_name 
+            s3_bucket,
+            s3_key_name
         )
-        obj.upload_file(s3_object)
-        #os.remove(filename)
+        
 
-        #s3 = boto3.resource('s3')
-
-        for bucket in s3.buckets.all():
-            print("INFO: Bucket \'%s\' contains the following object keys" % bucket.name)
-            
-            # list objects in the bucket
-            for obj in bucket.objects.all():
-                print("\t%s" % obj.key)
-
-        print("\n")
-
-        # # upload a new file
-        # data = open(filename, 'rb')
-        # s3.Bucket(conf['bucket']).put_object(Key=filename_str, Body=data)
-
-        # client   = boto3.client(
-        #    's3',
-        #    aws_access_key_id=conf['access_key'], 
-        #    aws_secret_access_key=conf['secret_access_key']
-        # )
-        # transfer = S3Transfer(client)
-        # transfer.upload_file(
-        #    filename, 
-        #    conf['bucket'],
-        #    filename
-        # ) 
-
-# if error occurs in 'try' block - generate an exception message
-except Exception as e:
-	print("FATAL: Problem uploading file to S3 Bucket.\n")
-        print("       %s\n" % e)
-	exit()
+        #obj.upload_file(filename)
+        # upload the actual file/object to S3
+        obj.upload_file('/tmp/' + filename)
 
 
-try: 
-	#--------------------------------------- 
-	# Post image to Elasticsearch for later searching
-	#--------------------------------------- 
-	# es = Elasticsearch([conf['elasticsearch_host']])
-	# ts = int(round(time.time() * 1000))
-	# res = es.index(index='raspberries', doc_type='ip_info', id=ip_address, body={ 'timestamp': ts })
-	# print(res['created'])
-        print("INFO: Elasticsearch commented out for now\n");
+	print("---   s3_bucket:   " + s3_bucket)
+	print("---   s3_key_name: " + s3_key_name)
+	print("---   filename:    " + filename)
 
-# if error occurs in 'try' block - generate an exception message
-except Exception as e:
-	print("FATAL: Problem writing to Elascticsearch .\n")
-        print("       %s\n" % e)
-	exit()
+	# remove local copy of the picture we just took
+	#os.remove('/tmp/' + filename)
+
+# handle any errors which might occur
+except botocore.exceptions.ClientError as e:
+	print "Unexpected error during S3 upload: %s" % e
+
 
 #--------------------------------------- 
 # Return success
