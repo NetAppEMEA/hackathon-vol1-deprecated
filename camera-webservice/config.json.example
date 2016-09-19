@@ -1,5 +1,4 @@
 {
-  "s3_region": "us-west-1",
   "s3_endpoint": "https://<Your S3 Endpoint>",
   "s3_bucket": "<Your S3 Bucket>",
   "s3_access_key": "<Your Access Key for S3>",
