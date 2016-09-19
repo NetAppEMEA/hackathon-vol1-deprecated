@@ -104,7 +104,7 @@ def takePhoto():
     camera.resolution = (640, 480)
 
     # rotate if needed
-    #camera.rotation = 180
+    # camera.rotation = 180
 
     # add the current time as text to the image
     camera.annotate_text = now.strftime("%Y-%m-%d %I:%M:%S%p")
@@ -213,10 +213,6 @@ def photo():
     # the item we are going to store in S3
     s3_object = filename
 
-    # report path where the picture is uploaded (path style for compatability)
-    s3_url = 'https://' + s3_endpoint + '/' + s3_bucket + '/' + s3_key_name
-    print("--- S3 upload path: " + s3_url)
-
     try:
         # connect to S3 using boto3 API by passing access key and secret access keys.
         # the S3 endpoint is inferred from the key pair upon connection
@@ -224,7 +220,30 @@ def photo():
             aws_access_key_id=conf['s3_access_key'],
             aws_secret_access_key=conf['s3_secret_access_key']
         )
-        s3 = session.resource(service_name='s3')
+
+        # if end point is AWS S3
+        if 'amazonaws.com' in s3_endpoint:
+            print("---   AWS Upload ---")
+            s3_url = 'https//:' + s3_endpoint + '/' + s3_bucket + '/' + s3_key_name
+
+            # AWS infers the endpoint from the s3_access_key/account info
+            s3 = session.resource(service_name='s3')
+
+        # else assume NetApp StorageGrid Webscale (SGWS)
+        else:
+            print("---   SGWS Upload ---")
+            # SGWS requires full endpoint passed to the session.resource
+            s3_endpoint = "https://" + conf['s3_endpoint'] + ":443"
+            s3_url = s3_endpoint + '/' + s3_bucket + '/' + s3_key_name
+
+            s3 = session.resource(service_name='s3',
+                                  endpoint_url=s3_endpoint,
+                                  verify=False
+                                  )
+
+        # report path where the picture is uploaded (path style for
+        # compatability)
+        print("--- S3 upload path: " + s3_url)
 
         # defined a new S3 object by specifying the bucket and key_name that you
         # will store the file
@@ -250,12 +269,13 @@ def photo():
     # Post image to Elasticsearch for later searching
     #---------------------------------------
     try:
-        print("--- Post image to Elasticsearch at: " + conf['elasticsearch_host'])
+        print("--- Post image to Elasticsearch at: " +
+              conf['elasticsearch_host'])
         es = Elasticsearch(
-                            [conf['elasticsearch_host']],
-                            port=443,
-                            use_ssl=True,
-                            )
+            [conf['elasticsearch_host']],
+            port=443,
+            use_ssl=True,
+        )
         ts = int(round(time.time() * 1000))
         # data to post
         res = es.index(index='raspberries',
@@ -294,8 +314,8 @@ def photo():
         jsonify(
             {
                 'message': 'Photo \'{0}\' taken and uploaded to S3 Object storage and metadata posted Elasticsearch.'.format(s3_key_name),
-                's3_url' : s3_url,
-                'elasticsearch_host' : conf['elasticsearch_host'],
+                's3_url': s3_url,
+                'elasticsearch_host': conf['elasticsearch_host'],
                 'image_key': s3_key_name,
             }
         ), 200
