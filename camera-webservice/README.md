@@ -58,15 +58,16 @@ The webservice.rb script has the following dependencies. Make sure these are ins
 
 
 ### Common: Step 2 - Test the webservice is running
-* Load the browser to http://<ip address>:8080  
+* Load the browser to http://ip_address:8080  
 * Debug: if errors, check that the program packages are installed.
 
 ### Common: Step 3 - Test taking a simple picture
-* Load the browser to http://<ip address>:8080/test
+* Load the browser to http://ip_address:8080/test
 * Did you see a picture.  If the camera did not work, go back and test that fswebcam is working.
+* Test is a poor RESTful API name. Can you change the RESTful API to something better?
 
 ### Common: Step 4 - Test the S3 and ElasticSearch upload
-* Load the browser to http://<ip address>:8080/photo
+* Load the browser to http://ip_address:8080/photo
 * If errors, check the S3 and ElasticSearch settings in the config.json file.
 
 
@@ -74,5 +75,5 @@ The webservice.rb script has the following dependencies. Make sure these are ins
 1. Add more key/value pair information to the ElasticSearch post.  If you were going to add meta data to an image, what sort of meta data might you include about the picture?
 2. Upload a file to ElasticSearch - think what if I uploaded a perfstat to Elasticsearch every hour, then let Elasticsearch search and report on the information in the perfstat file.  Is this practical application.
 3. Add object attributes to the S3 upload.  
-4. Change the RESTful API calls.  If you don't like http://<ip_address>/test, change it to something else.  
+4. Change the RESTful API calls.  If you don't like http://ip_address/test, change it to something else.  
 5. If you tried the Python, try getting the Ruby version working.

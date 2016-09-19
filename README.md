@@ -22,7 +22,7 @@ Hackers are encouraged and should feel free to customize their work as they choo
 * **Novice hackers (NOOBS):**
 May want to follow the activity outline more closely. They may want to pair up with another Intermediate hacker for additional support.  Novice hackers should definitely review the PREWORK.md document prior to the event to make sure they are prepared to get the most out of the event.
 
-The instructions provided below are most likely not detailed enough for a novice hacker.  Please contact the hack-night lead for additional supporting documentation - which provids a few more step-by-step instructins.
+The instructions provided below are most likely not detailed enough for a novice hacker.  Please contact the hack-night lead for additional supporting documentation - which provides a few more step-by-step instructions.
 
 * **Intermediate hackers:**
 The instructions below are written with the Intermediate hacker in mind.  The instructions are intentionally terse with the assumption that the hacker will use resources like **Google** to provide missing information.  
@@ -63,9 +63,9 @@ Look in a file named PREWORK.md which details suggested activities to do **BEFOR
 ### Module 1: Connect to RaspberryPI, Take Picture and View the image
 1. SSH to remotely connect to your RaspberryPI.
 2. Install the fswebcam and figure out how to take a picture.
-Hint: Google "fswebcam"
-Note: You may need to run the following command to load the camera driver.
-*%> sudo modprobe bcm2835-v4l2*
+   * Hint: Google "fswebcam"
+   * Note: You may need to run the following command to load the camera driver.
+   * *%> sudo modprobe bcm2835-v4l2*
 3. Copy the image back to your PC (using SCP) and view the image.
 
 ### Module 2: Connect to S3 and Create a Bucket - Connect to ElasticSearch

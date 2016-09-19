@@ -49,7 +49,7 @@ require 'date'
 config = JSON.parse(File.read(File.dirname(__FILE__) + '/config.json'))
 
 # S3 values
-$region           = config['s3_region']
+$region           = 'us-west-1'
 $endpoint         = config['s3_endpoint']
 $http_endpoint    = 'https://' + $endpoint
 $bucket_name      = config['s3_bucket']
