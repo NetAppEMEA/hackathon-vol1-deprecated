@@ -55,6 +55,6 @@ Secret_access_key: `lGhrh7T7ddtElcJyaUa1nc08UzHbvwD/GriUJQKI`
 
 ###Elasticsearch Server
 Elasticsearch version: 2.3
-Endpoint:  `https://search-netapp-hackernet-vjwfdxrvkvs56u6g6d56mwjhsi.us-west-2.es.amazonaws.com`
+Endpoint: [search-netapp-hackernet-vjwfdxrvkvs56u6g6d56mwjhsi.us-west-2.es.amazonaws.com](https://search-netapp-hackernet-vjwfdxrvkvs56u6g6d56mwjhsi.us-west-2.es.amazonaws.com)
 Domain ARN: `arn:aws:es:us-west-2:440113846901:domain/netapp-hackernet`
 Kibana: `search-netapp-hackernet-vjwfdxrvkvs56u6g6d56mwjhsi.us-west-2.es.amazonaws.com/_plugin/kibana/`
