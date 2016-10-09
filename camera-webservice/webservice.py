@@ -224,7 +224,7 @@ def photo():
         # if end point is AWS S3
         if 'amazonaws.com' in s3_endpoint:
             print("---   AWS Upload ---")
-            s3_url = 'https//:' + s3_endpoint + '/' + s3_bucket + '/' + s3_key_name
+            s3_url = 'https://' + s3_endpoint + '/' + s3_bucket + '/' + s3_key_name
 
             # AWS infers the endpoint from the s3_access_key/account info
             s3 = session.resource(service_name='s3')
